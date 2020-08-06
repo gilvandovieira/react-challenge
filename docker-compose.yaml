@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+    postgres:
+        image: "postgres:latest"
+        environment: 
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: yourpassword
+        ports: 
+            - "5432:5432"
+        volumes: 
+            - "gilvando_db:/var/lib/postgres/database"
+        networks:
+            gilvando_net: 
+                aliases: 
+                    - gilvando_net
+    api:
+        image: "gilvandovieira/gilvando-dgvx-spring-api:0.1.3"
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+        ports: 
+            - "8080:8080"
+        networks: 
+            gilvando_net: 
+                aliases: 
+                    - gilvando_net
+        restart: unless-stopped
+        depends_on:
+            - postgres
+        links: 
+            - postgres
+    ui:
+        image: "gilvandovieira/gilvando-dgvx-ui:0.1.0"
+        ports: 
+            - 3000:5000
+            - 5000:5000
+        restart: unless-stopped
+        depends_on: 
+            - api
+        networks: 
+            gilvando_net:
+                aliases: 
+                    - gilvando_net
+        links:
+            - api
+volumes: 
+    gilvando_db:
+
+networks: 
+    gilvando_net:
