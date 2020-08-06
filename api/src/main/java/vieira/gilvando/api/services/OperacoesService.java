@@ -45,14 +45,14 @@ public class OperacoesService {
         if (optcliente.isPresent()) {
             Cliente cliente = optcliente.get();
 
-            Optional<Livro> livros = livroRepository.findById(livro_id);
-            if (livros == null || livros.isEmpty()) {
+            Optional<Livro> livro = livroRepository.findById(livro_id);
+            if (livro == null || livro.isEmpty()) {
                 throw new LivrosNaoEncontradosException();
             }
 
             Reserva reserva = new Reserva();
-            reserva.setReservante(cliente);
-            reserva.setLivros(livros.get());
+            reserva.setCliente(cliente);
+            reserva.setLivro(livro.get());
             reserva.setDataInicio(LocalDateTime.now());
             reserva.setDataFim(LocalDateTime.now().plusDays(3));
             reservaRepository.save(reserva);
@@ -87,7 +87,7 @@ public class OperacoesService {
             Optional<Livro> livroAAlugar = livroRepository.findById(livro_id);
             Aluguel aluguel = new Aluguel();
             aluguel.setCliente(cliente);
-            aluguel.setLivros(livroAAlugar.get());
+            aluguel.setLivro(livroAAlugar.get());
             aluguel.setDataInicio(LocalDateTime.now());
             aluguel.setDataFim(LocalDateTime.now().plusDays(5));
             aluguel.setPrice(2.0);

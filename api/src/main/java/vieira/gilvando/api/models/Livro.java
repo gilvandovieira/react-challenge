@@ -30,11 +30,11 @@ public class Livro implements Serializable {
 
     private String nome, autor;
 
-    @OneToMany(mappedBy = "livros")
+    @OneToMany(mappedBy = "livro")
     @JsonIgnore
     List<Aluguel> alugueis = new LinkedList<>();
 
-    @OneToMany(mappedBy = "livros", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.REMOVE)
     @JsonIgnore
     List<Reserva> reservados = new LinkedList<>();
 

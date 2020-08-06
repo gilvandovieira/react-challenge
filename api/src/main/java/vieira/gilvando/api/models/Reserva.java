@@ -27,11 +27,11 @@ public class Reserva implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "livro_id", nullable = false)
-    private Livro livros;
+    private Livro livro;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente reservante;
+    private Cliente cliente;
 
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;

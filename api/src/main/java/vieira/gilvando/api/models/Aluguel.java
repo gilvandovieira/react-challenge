@@ -27,7 +27,7 @@ public class Aluguel implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "livro_id", nullable = false)
-    private Livro livros;
+    private Livro livro;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)

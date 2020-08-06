@@ -34,7 +34,7 @@ public class Cliente implements Serializable {
     @JsonIgnore
     private List<Aluguel> alugueis = new LinkedList<>();
 
-    @OneToMany(mappedBy = "reservante", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Reserva> reservas = new  LinkedList<>();
 }
