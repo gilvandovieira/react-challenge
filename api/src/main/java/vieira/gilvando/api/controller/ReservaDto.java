@@ -6,6 +6,6 @@ import lombok.Data;
 public class ReservaDto {
 
     Long cliente;
-    Long livros;
+    Long livro;
     
 }

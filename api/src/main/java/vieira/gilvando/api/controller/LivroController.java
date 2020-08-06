@@ -76,7 +76,11 @@ public class LivroController {
     public ResponseEntity<?> deletaLivro(@PathVariable("id") Long id) {
         Optional<Livro> opt = livroRepository.findById(id);
         if (opt.isPresent()) {
-            livroRepository.delete(opt.get());
+            try {
+                livroRepository.delete(opt.get());
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body("Livro possui aluguéis pendentes.");
+            }
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

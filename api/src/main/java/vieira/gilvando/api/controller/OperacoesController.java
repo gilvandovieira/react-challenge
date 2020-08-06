@@ -39,10 +39,10 @@ public class OperacoesController {
     }
 
     @PostMapping("/reservar")
-    public ResponseEntity<?> reservar(@RequestBody @Valid ReservaDto reserva) {
+    public ResponseEntity<?> reservar(@RequestBody @Valid ReservaDto dto) {
 
         try {
-            operacoesService.reservarLivros(reserva.getLivros(), reserva.getCliente());
+            operacoesService.reservarLivros(dto.getLivro(), dto.getCliente());
         } catch (ClienteNaoEncontradoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (LivrosNaoEncontradosException e) {
@@ -71,9 +71,9 @@ public class OperacoesController {
     }
 
     @PostMapping("/alugar")
-    public ResponseEntity<?> alugar(@RequestBody @Valid AluguelDto aluguelDto) {
+    public ResponseEntity<?> alugar(@RequestBody @Valid AluguelDto dto) {
         try {
-            operacoesService.alugarLivros(aluguelDto.getLivros(), aluguelDto.getCliente());
+            operacoesService.alugarLivros(dto.getLivro(), dto.getCliente());
         } catch (ClienteNaoEncontradoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (NovoAluguelSemLivrosException e) {
@@ -87,7 +87,7 @@ public class OperacoesController {
     public ResponseEntity<?> devolver(@RequestBody @Valid DevolucaoDto dto) {
 
         try {
-            operacoesService.devolverLivros(dto.getCliente());
+            operacoesService.devolverLivros(dto.getDevolucao());
         } catch (ClienteNaoEncontradoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (AluguelNaoEncontradoException e) {

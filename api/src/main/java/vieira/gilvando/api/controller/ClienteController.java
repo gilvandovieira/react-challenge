@@ -55,7 +55,7 @@ public class ClienteController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Cliente> atualizaCliente(@PathVariable("id")Long id, @RequestBody @Valid Cliente cliente){
+    public ResponseEntity<Cliente> atualizaCliente(@PathVariable("id") Long id, @RequestBody @Valid Cliente cliente) {
 
         Optional<Cliente> optcliente = clienteRepository.findById(id);
         if (optcliente.isPresent()) {
@@ -63,7 +63,7 @@ public class ClienteController {
             c.setNome(cliente.getNome());
             clienteRepository.save(c);
             return ResponseEntity.ok(c);
-        }else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -72,6 +72,11 @@ public class ClienteController {
     public ResponseEntity<?> deletaCliente(@PathVariable("id") Long id) {
         Optional<Cliente> optcliente = clienteRepository.findById(id);
         if (optcliente.isPresent()) {
+            try {
+                clienteRepository.delete(optcliente.get());
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body("Cliente possui aluguéis pendentes.");
+            }
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

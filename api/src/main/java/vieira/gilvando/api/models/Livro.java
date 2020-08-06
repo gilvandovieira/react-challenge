@@ -1,14 +1,17 @@
 package vieira.gilvando.api.models;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -28,9 +31,11 @@ public class Livro implements Serializable {
     private String nome, autor;
 
     @OneToMany(mappedBy = "livros")
-    Set<Aluguel> alugueis = new HashSet<>();
+    @JsonIgnore
+    List<Aluguel> alugueis = new LinkedList<>();
 
-    @OneToMany(mappedBy = "livros")
-    Set<Reserva> reservados = new HashSet<>();
+    @OneToMany(mappedBy = "livros", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    List<Reserva> reservados = new LinkedList<>();
 
 }

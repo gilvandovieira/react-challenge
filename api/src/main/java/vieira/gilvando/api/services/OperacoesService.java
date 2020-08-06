@@ -65,13 +65,8 @@ public class OperacoesService {
     public void cancelarReserva(Long reserva_id) throws ReservaNaoEncontradaException {
 
         Optional<Reserva> optreserva = reservaRepository.findById(reserva_id);
-
         if (optreserva.isPresent()) {
-            Reserva reserva = optreserva.get();
-
-            reservaRepository.delete(reserva);
-            return;
-
+            reservaRepository.delete(optreserva.get());
         } else {
             throw new ReservaNaoEncontradaException();
         }
@@ -103,11 +98,11 @@ public class OperacoesService {
     }
 
     @Transactional
-    public void devolverLivros(Long cliente_id) throws ClienteNaoEncontradoException, AluguelNaoEncontradoException {
+    public void devolverLivros(Long devolucao) throws ClienteNaoEncontradoException, AluguelNaoEncontradoException {
 
-        Aluguel aluguel = aluguelRepository.findByClienteId(cliente_id);
-
-        aluguelRepository.delete(aluguel);
-
+        Optional<Aluguel> aluguel = aluguelRepository.findById(devolucao);
+        if (aluguel.isPresent()) {
+            aluguelRepository.delete(aluguel.get());
+        }
     }
 }
